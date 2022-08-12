@@ -1,0 +1,30 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<# var tableName = table.Name; #>
+<# manager.StartBlock("I"+tableName + Const.Service + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+namespace Shao.ApiTemp.IService;
+
+public interface I<#= tableName #>Service : IAppService
+{
+    Task<R<<#= tableName #>Dto>> Get(<#= tableName #>IdReq req);
+    Task<R<IEnumerable<Query<#= tableName #>Dto>>> Query(Query<#= tableName #>Req? req);
+
+    Task<R> Save(Save<#= tableName #>Req req);
+}
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

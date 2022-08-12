@@ -1,0 +1,198 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+    var db = new Database();
+    var tables = db.GetAllTable();
+    var path = Const.EnsureCurrentPath(Host,Const.Domain);
+    path = Const.EnsurePath(path, Const.Dto);
+#>
+<#
+    var mapperPath = Const.EnsurePath(path, Const.Mapper);
+      var mapperManager = new Manager(Host, GenerationEnvironment, true) {
+        OutputPath = mapperPath
+    };
+    var mapperName = "EntityConvertDtoProfile";
+#>
+<# mapperManager.StartBlock(mapperName + ".cs"); #>
+using AutoMapper;
+<# foreach(Table table in tables){#>
+using Shao.ApiTemp.Domain.Dto.<#= table.Name #>;
+using Shao.ApiTemp.Domain.<#= table.Name #>;
+<#}#>
+
+namespace Shao.ApiTemp.Domain.Dto.Mapper;
+
+public class <#= mapperName #> : Profile
+{
+    public <#= mapperName #>()
+    {
+<# foreach(Table table in tables){#>
+        CreateMap<<#= Const.Save + table.Name + Const.Req #>,<#= table.Name + Const.Do #>>().ReverseMap();
+        CreateMap<<#= table.Name + Const.Dto #>,<#= table.Name + Const.Do #>>().ReverseMap();
+
+<#}#>
+    }
+}
+<# mapperManager.EndBlock(); #>
+<# mapperManager.Process(true); #>
+
+<# foreach(Table table in tables){#>
+<#
+    var tableName = table.Name;
+    var currentDtoPath = path + "\\"+tableName;
+    if (!Directory.Exists(currentDtoPath))
+    {
+        Directory.CreateDirectory(currentDtoPath);
+    }
+    var manager = new Manager(Host, GenerationEnvironment, true) {
+        OutputPath = currentDtoPath
+    };
+    var dtoName = tableName + Const.Dto;
+    var idReqName = tableName + Const.Id + Const.Req;
+    var idReqValitatorName = tableName + Const.Id + Const.Req + Const.Valitator;
+    var queryDtoName = Const.Query + tableName + Const.Dto;
+    var queryReqName = Const.Query + tableName + Const.Req;
+    var queryReqValitatorName = Const.Query + tableName + Const.Req + Const.Valitator;
+    var saveReqName = Const.Save + tableName + Const.Req;
+    var saveReqValitatorName = Const.Save + tableName + Const.Req + Const.Valitator;
+
+    var primaryKeyColumn = table.Columns.FirstOrDefault(x=>x.IsPrimaryKey)??table.Columns.First();
+#>
+
+<# manager.StartBlock(dtoName + ".cs"); #>
+using Shao.ApiTemp.Domain.<#= tableName #>;
+
+namespace Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+/// <summary>
+///  <#= table.Remark #>
+/// </summary>
+public class <#= dtoName #>
+{
+<# foreach(Column column in table.Columns){#>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+}
+<# manager.EndBlock(); #>
+
+<# manager.StartBlock(queryDtoName + ".cs"); #>
+#nullable disable
+
+using Shao.ApiTemp.Domain.<#= tableName #>;
+
+namespace Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+/// <summary>
+///  查询<#= table.Remark #>结果项
+/// </summary>
+public class <#= queryDtoName #>
+{
+<# foreach(Column column in table.Columns){#>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+}
+<# manager.EndBlock(); #>
+
+<# manager.StartBlock(idReqName + ".cs"); #>
+namespace Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+/// <summary>
+///  <#= table.Remark #>标识
+/// </summary>
+public class <#= idReqName #> : Req
+{
+    /// <summary>
+    /// <#= primaryKeyColumn.Remark #> 
+    /// </summary>
+    public <#= db.ToCSharpType(primaryKeyColumn) #> <#= primaryKeyColumn.Name #> {get;set;} 
+
+    public <#= idReqName #>() { }
+    public <#= idReqName #>(long <#= Const.ToLower(primaryKeyColumn.Name) #>)
+    {
+        <#= primaryKeyColumn.Name #> = <#= Const.ToLower(primaryKeyColumn.Name) #>;
+    }
+}
+public class <#= idReqValitatorName #> : ReqValidator<<#= idReqName #>>
+{
+    public <#= idReqValitatorName #>()
+    {
+        RuleFor(x => x.<#= primaryKeyColumn.Name #>).GreaterThan(0).WithName("<#= table.Remark #>标识");
+    }
+}
+public class <#= idReqValitatorName #><TReq> : ReqValidator<TReq>
+    where TReq : <#= idReqName #>
+{
+    public <#= idReqValitatorName #>()
+    {
+        RuleFor(x => x.<#= primaryKeyColumn.Name #>).GreaterThan(0).WithName("<#= table.Remark #>标识");
+    }
+}
+<# manager.EndBlock(); #>
+
+<# manager.StartBlock(queryReqName + ".cs"); #>
+namespace Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+/// <summary>
+///  查询<#= table.Remark #>请求
+/// </summary>
+public class <#= queryReqName #> : PageReq
+{
+<# foreach(Column column in table.Columns){#>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    ///<remarks><#= db.ToRemark(column) #></remarks>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+}
+public class <#= queryReqValitatorName #> : PageReqValidator<<#= queryReqName #>>
+{
+    public <#= queryReqValitatorName #>()
+    {
+<# foreach(Column column in table.Columns.Where(x=>!x.IsPrimaryKey && !string.IsNullOrEmpty(x.Remark)).ToList()){#>
+        RuleFor(x => x.<#= column.Name #>).Length(1,10).WithName("<#= column.Remark #>")
+            .When(x => !string.IsNullOrWhiteSpace(x.<#= column.Name #>));
+<#}#>    
+    }
+}
+<# manager.EndBlock(); #>
+
+<# manager.StartBlock(saveReqName + ".cs"); #>
+namespace Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+/// <summary>
+///  保存<#= table.Remark #>请求
+/// </summary>
+public class <#= saveReqName #> : <#= idReqName #>
+{
+<# foreach(Column column in table.Columns.Where(x=>!x.IsPrimaryKey).ToList()){#>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    ///<remarks><#= db.ToRemark(column) #></remarks>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+
+    public bool IsInsert() => <#= primaryKeyColumn.Name #> == default;
+}
+public class <#= saveReqValitatorName #> : ReqValidator<<#= saveReqName #>>
+{
+    public <#= saveReqValitatorName #>()
+    {
+<# foreach(Column column in table.Columns.Where(x=>!string.IsNullOrEmpty(x.Remark)).ToList()){#>
+        RuleFor(x => x.<#= column.Name #>).NotEmpty().WithName("<#= column.Remark #>");
+<#}#>    }
+}
+<# manager.EndBlock(); #>
+
+<# manager.Process(true); #>
+<#}#>

@@ -1,0 +1,41 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<# manager.StartBlock(table.Name + Const.Po + ".cs"); #>
+#nullable disable
+
+namespace Shao.ApiTemp.Repo.PersistentObject;
+
+[Table("<#= table.Name #>")]
+/// <summary>
+/// <#= table.Remark #> 
+/// </summary>
+public class <#= table.Name #><#= Const.Po #> : IPersistant
+{
+<# foreach(Column column in table.Columns){#>
+<# var keyAttrbute = column.IsPrimaryKey ? "[Key]":string.Empty;#>
+    <#= keyAttrbute #>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    ///<remarks><#= db.ToRemark(column) #></remarks>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+
+<# var primaryKeyColumn = table.Columns.FirstOrDefault(x=>x.IsPrimaryKey)??table.Columns.First(); #>
+    public bool IsInsert() => <#= primaryKeyColumn.Name #> == default;
+}
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

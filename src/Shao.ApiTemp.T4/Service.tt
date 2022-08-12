@@ -1,0 +1,63 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<#
+    var tableName = table.Name; 
+    var lowerTableName = Const.ToLower(tableName);
+#>
+<# manager.StartBlock(tableName + Const.Service + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+using Shao.ApiTemp.Domain.<#= tableName #>;
+
+namespace Shao.ApiTemp.Service;
+
+public class <#= tableName #>Service : BaseService, I<#= tableName #>Service
+{
+    private readonly I<#= tableName #>Repo _<#= lowerTableName #>Repo;
+
+    public <#= tableName #>Service(I<#= tableName #>Repo <#= lowerTableName #>Repo)
+    {
+        _<#= lowerTableName #>Repo = <#= lowerTableName #>Repo;
+    }
+
+    public async Task<R<<#= tableName #>Dto>> Get(<#= tableName #>IdReq req)
+    {
+        var <#= lowerTableName #> = await _<#= lowerTableName #>Repo.Get(req);
+        <#= tableName #>Dto data = AppCrossCut.Map<<#= tableName #>Do, <#= tableName #>Dto>(<#= lowerTableName #>);
+        return R.Succ(data);
+    }
+    public async Task<R<IEnumerable<Query<#= tableName #>Dto>>> Query(Query<#= tableName #>Req req)
+    {
+        var result = await _<#= lowerTableName #>Repo.Query(req);
+        return result;
+    }
+
+    public async Task<R> Save(Save<#= tableName #>Req req)
+    {
+        <#= tableName #>Do <#= lowerTableName #>;
+        if (req.IsInsert())
+        {
+            <#= lowerTableName #> = await <#= tableName #>Do.Create(req);
+        }
+        else
+        {
+            <#= lowerTableName #> = await _<#= lowerTableName #>Repo.Get(req);
+            await <#= lowerTableName #>.Update(req);
+        }
+        return await _<#= lowerTableName #>Repo.Save(<#= lowerTableName #>);
+    }
+}
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

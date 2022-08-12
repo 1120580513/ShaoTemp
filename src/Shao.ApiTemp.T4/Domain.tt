@@ -1,0 +1,85 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+    var db = new Database();
+    var tables = db.GetAllTable();
+    var path = Const.EnsureCurrentPath(Host);
+#>
+<# foreach(Table table in tables){#>
+<#
+    var tableName = table.Name;
+    var currentPath = path + "\\"+tableName;
+    if (!Directory.Exists(currentPath))
+    {
+        Directory.CreateDirectory(currentPath);
+    }
+    var manager = new Manager(Host, GenerationEnvironment, true) {
+        OutputPath = currentPath
+    };
+    var doName = tableName + Const.Do;
+    var doNameLower = Const.ToLower(doName);
+#>
+<# manager.StartBlock(doName + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+namespace Shao.ApiTemp.Domain.<#= tableName #>;
+
+/// <summary>
+/// <#= table.Remark #> 
+/// </summary>
+public class <#= doName #> : BaseDo, IEntity
+{
+<# foreach(Column column in table.Columns){#>
+    /// <summary>
+    /// <#= column.Remark #> 
+    /// </summary>
+    public <#= db.ToCSharpType(column) #> <#= column.Name #> {get;set;} 
+<#}#>
+
+    /// <summary>
+    /// 自动映射使用
+    /// </summary>
+    public <#= doName #>() { }
+    public static async Task<<#= doName #>> Create(Save<#= tableName #>Req req)
+    {
+        var <#= doNameLower #> = new <#= doName #>()
+        {
+<# foreach(Column column in table.Columns){#>
+            <#= column.Name #> = req.<#= column.Name #>,
+<#}#>
+        };
+        return <#= doNameLower #>;
+    }
+
+    public async Task Update(Save<#= tableName #>Req req)
+    {
+<# foreach(Column column in table.Columns){#>
+        <#= column.Name #> = req.<#= column.Name #>;
+<#}#>
+    }
+    private readonly I<#= tableName #>Repo _repo = new Lazy<I<#= tableName #>Repo>(
+        () => AppCrossCut.ServicesContainer.Resolve<I<#= tableName #>Repo>()).Value;
+}
+<# manager.EndBlock(); #>
+
+<# manager.StartBlock("I"+tableName + Const.Repo + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+
+namespace Shao.ApiTemp.Domain.<#= tableName #>;
+
+public interface I<#= tableName #>Repo : IRepository
+{
+    Task<R<IEnumerable<<#= Const.Query+tableName +Const.Dto#>>>> <#= Const.Query #>(<#= Const.Query+tableName +Const.Req #> req);
+    Task<<#= tableName +Const.Do#>> Get(<#= tableName +Const.Id+Const.Req#> req);
+
+    Task<R> <#= Const.Save #>(<#= tableName +Const.Do#> <#= Const.ToLower(tableName) #>);
+}
+
+<# manager.EndBlock(); #>
+
+<# manager.Process(true); #>
+
+<#}#>

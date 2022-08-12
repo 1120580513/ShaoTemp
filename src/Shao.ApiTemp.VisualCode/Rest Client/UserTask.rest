@@ -1,0 +1,25 @@
+@Controller=UserTask
+@Url = {{Host_ShaoTempApi}}/{{Controller}}
+@usertaskid  = 1
+
+### 
+POST {{Url}}/Query HTTP/1.1
+Content-Type: application/json
+
+{
+  "page": 1,
+  "pageSize": 10
+}
+### 
+GET {{Url}}/Get?UserTaskId={{usertaskid}} HTTP/1.1
+
+### 
+POST {{Url}}/Save HTTP/1.1
+Content-Type: application/json
+
+{
+}
+
+'279622216adasfdfsdaasdfsdaf8030642867',
+'279752418adasfdfsdaasdfsdaf2037268752',
+'279720943adasfdfsdaasdfsdaf3076605505'

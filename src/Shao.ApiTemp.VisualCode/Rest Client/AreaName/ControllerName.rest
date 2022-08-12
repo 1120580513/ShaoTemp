@@ -1,0 +1,9 @@
+@Area = AreaName
+@Controller=ControllerName
+@Url = {{Host}}/{{Area}}/{{Controller}}
+
+### 
+POST {{Url}}/Action HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+
+{}

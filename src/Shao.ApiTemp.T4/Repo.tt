@@ -1,0 +1,90 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var db = new Database();
+var tables = db.GetAllTable();
+var path = Const.EnsureCurrentPath(Host);
+#>
+<#
+    var mapperPath = Const.EnsurePath(path, Const.Mapper);
+    var mapperManager = new Manager(Host, GenerationEnvironment, true) {
+        OutputPath = mapperPath
+    };
+    var mapperName = "DoConvertPoPerfile";
+#>
+<# mapperManager.StartBlock(mapperName + ".cs"); #>
+using AutoMapper;
+<# foreach(Table table in tables){#>
+using Shao.ApiTemp.Domain.<#= table.Name #>;
+<#}#>
+
+namespace Shao.ApiTemp.Repo.Mapper;
+
+public class <#= mapperName #> : Profile
+{
+    public <#= mapperName #>()
+    {
+<# foreach(Table table in tables){#>
+        CreateMap<<#= table.Name + Const.Do #>,<#= table.Name + Const.Po #>>().ReverseMap();
+<#}#>
+    }
+}
+<# mapperManager.EndBlock(); #>
+<# mapperManager.Process(true); #>
+
+<#
+    var manager = new Manager(Host, GenerationEnvironment, true) {
+        OutputPath = path
+    };
+#>
+<# foreach(Table table in tables){#>
+<#
+    var tableName = table.Name; 
+    var lowerTableName = Const.ToLower(tableName);
+#>
+<# manager.StartBlock(tableName + Const.Repo + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+using Shao.ApiTemp.Domain.<#= tableName #>;
+
+namespace Shao.ApiTemp.Repo;
+
+public class <#= tableName#>Repo : DefaultRepo<<#= tableName#>Po, long, <#= tableName#>Repo>, I<#= tableName#>Repo
+{
+    public async Task<<#= tableName#>Do> Get(<#= tableName#>IdReq req)
+    {
+        var <#= lowerTableName#>Po = Ensure(await TryGet(req.<#= tableName#>Id), "<#= table.Remark#>不存在");
+        var <#= lowerTableName#> = await ToDo(<#= lowerTableName#>Po);
+        return <#= lowerTableName#>;
+    }
+    public async Task<R<IEnumerable<Query<#= tableName#>Dto>>> Query(Query<#= tableName#>Req req)
+    {
+        var sql = @"
+SELECT  {0}*
+FROM dbo.<#= tableName#> WITH(NOLOCK)
+";
+        return await PageQuery<Query<#= tableName#>Dto>(sql, req, req, "ModifyOn DESC", nameof(Query));
+    }
+
+    public async Task<R> Save(<#= tableName#>Do <#= lowerTableName#>)
+    {
+        var <#= lowerTableName#>Po = AppCrossCut.Map<<#= tableName#>Do,<#= tableName#>Po>(<#= lowerTableName#>);
+        <#= lowerTableName#>Po.ModifyOn = DateTime.Now;
+
+        var isSucc = await InsertOrUpdate(<#= lowerTableName#>Po);
+        return R.Cond(isSucc, "保存<#= table.Remark#>失败");
+    }
+
+    private async Task<<#= tableName#>Do> ToDo(<#= tableName#>Po po)
+    {
+        var <#= lowerTableName#> = AppCrossCut.Map<<#= tableName#>Po,<#= tableName#>Do>(po);
+        return await Task.FromResult(<#= lowerTableName#>);
+    }
+}
+
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

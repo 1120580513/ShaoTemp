@@ -1,0 +1,32 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<# var tableName = table.Name; #>
+<# manager.StartBlock("I"+tableName + Const.Repo + ".cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName #>;
+using Shao.ApiTemp.Domain.<#= tableName #>;
+
+namespace Shao.ApiTemp.IRepo;
+
+public interface I<#= tableName #>Repo : IRepository
+{
+    Task<<#= tableName +Const.Do#>> Get(<#= tableName +Const.Id+Const.Req#> req);
+    Task<R<IEnumerable<<#= Const.Query+tableName +Const.Dto#>>>> <#= Const.Query #>(<#= Const.Query+tableName +Const.Req #> req);
+
+    Task<R> <#= Const.Save #>(<#= tableName +Const.Do#> <#= Const.ToLower(tableName) #>);
+}
+
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

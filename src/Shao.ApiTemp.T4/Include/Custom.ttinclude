@@ -1,0 +1,48 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating"#>
+
+<#+
+class Const{
+    public const string Po = "Po";
+    public const string Do = "Do";
+    public const string Dto = "Dto";
+    public const string Save = "Save";
+    public const string Id = "Id";
+    public const string Query = "Query";
+    public const string Req = "Req";
+    public const string Valitator = "Valitator";
+    public const string Repo = "Repo";
+    public const string Service = "Service";
+    public const string Domain = "Domain";
+    public const string Mapper = "Mapper";
+    public const string DomainObject = "DomainObject";
+
+    public static string ToLower(string tableName){
+        return tableName.First().ToString().ToLower() + tableName.Substring(1);
+    }
+    public static string EnsureCurrentPath(ITextTemplatingEngineHost host, string dirName = null){
+        var fileName = dirName ?? GetFileName(host.TemplateFile);
+        var dirPath = Directory.GetParent(host.TemplateFile).FullName;
+        var path = Path.Combine(dirPath, fileName);
+        EnsureDir(path);
+        return path;
+    }
+    public static string EnsurePath(string path, string dirName){
+        var current = Path.Combine(path, dirName);
+        EnsureDir(current);
+        return current;
+    }
+    
+    private static string GetFileName(string path){
+        const int TextTemplateSuffixLength = 3;// .tt
+        var name = Path.GetFileName(path);
+        return name.Substring(0, name.Length - TextTemplateSuffixLength);
+    }
+    private static void EnsureDir(string path){
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+    }
+}
+#>

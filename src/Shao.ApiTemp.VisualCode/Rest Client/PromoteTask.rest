@@ -1,0 +1,37 @@
+@Controller=PromoteTask
+@Url = {{Host_ShaoTempApi}}/{{Controller}}
+@promotetaskid  = 1
+
+### 
+POST {{Url}}/Query HTTP/1.1
+Content-Type: application/json
+
+{
+  "page": 1,
+  "pageSize": 10
+}
+
+### 
+GET {{Url}}/Get?PromoteTaskId={{promotetaskid}} HTTP/1.1
+
+### 
+POST {{Url}}/Save HTTP/1.1
+Content-Type: application/json
+
+{
+  "promoteTaskId": 0,
+  "storeId": 1,
+  "promoteTaskName": "测试推广添加",
+  "startTime": "2022-08-03T09:25:00.407Z",
+  "endTime": "2022-08-06T09:25:00.407Z",
+  "specs": [
+    {
+      "promoteTaskSpecId": 0,
+      "specNum": 1,
+      "giveGoodsId": 1,
+      "giveGoodsName": "sss",
+      "giveGoodsCode": "string",
+      "giveGoodsNum": 1
+    }
+  ]
+}

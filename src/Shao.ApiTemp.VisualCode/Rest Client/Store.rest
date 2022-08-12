@@ -1,0 +1,50 @@
+@Controller=Store
+@Url = {{Host_ShaoTempApi}}/{{Controller}}
+@storeid = 1
+
+### 
+POST {{Url}}/Query HTTP/1.1
+Content-Type: application/json
+
+{
+  "page": 1,
+  "pageSize": 10
+}
+### 
+GET {{Url}}/Get?storeId={{storeid}} HTTP/1.1
+### 
+GET {{Url}}/GetConfig?storeId={{storeid}} HTTP/1.1
+
+### 
+POST {{Url}}/Save HTTP/1.1
+Content-Type: application/json
+
+{
+  "storeId": {{storeid}},
+  "storeName": "",
+  "auditQuota": 1
+}
+### 
+POST {{Url}}/SaveConfig HTTP/1.1
+Content-Type: application/json
+
+{
+  "storeId": {{storeid}},
+  "promoteLimitOfDay": 16,
+  "promoteLimitCount": 1
+}
+
+### 
+POST {{Url}}/Open HTTP/1.1
+Content-Type: application/json
+
+{
+  "storeId": {{storeid}}
+}
+### 
+POST {{Url}}/Close HTTP/1.1
+Content-Type: application/json
+
+{
+  "storeId": {{storeid}}
+}

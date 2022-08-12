@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Shao.ApiTemp</name>
+    </assembly>
+    <members>
+        <member name="T:Shao.ApiTemp.Controllers.Base.ApiController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Controllers.HomeController">
+            <summary>
+            默认控制器
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Controllers.HomeController.Index">
+            <summary>
+            默认页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Shao.ApiTemp.Infrastructure.SwaggerGen.EnumDocumentFilter">
+            <summary>
+            swagger文档生成过滤器，用于枚举描述的生成
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Infrastructure.SwaggerGen.EnumDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            实现IDocumentFilter接口的Apply函数
+            </summary>
+            <param name="swaggerDoc"></param>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>

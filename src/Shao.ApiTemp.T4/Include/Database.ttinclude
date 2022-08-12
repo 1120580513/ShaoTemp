@@ -1,0 +1,142 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="netstandard" #>
+<#@ assembly name="Shao.ApiTemp.T4/Include/Packages/Dapper.dll" #>
+
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.Linq"#>
+<#@ import namespace="System.Data"#>
+<#@ import namespace="System.Data.SqlClient"#>
+<#@ import namespace="Dapper"#>
+
+<#+
+class Column{
+    public string TableName{get;set;}
+    public string Name{get;set;}
+    public bool IsIdentity {get;set;}
+    public bool IsPrimaryKey {get;set;}
+    public string Type{get;set;}
+    public int Length{get;set;}
+    public int Scale{get;set;}
+    public bool IsNullable{get;set;}
+    public string Default{get;set;}
+    public string Remark{get;set;}
+
+    public const string SQL = @"
+SELECT
+TableName = d.name ,
+Name = a.name,
+IsIdentity = case when COLUMNPROPERTY( a.id,a.name,'IsIdentity')=1 then 1 else 0 end,
+IsPrimaryKey = case when exists(
+	SELECT 1 FROM sysobjects where xtype='PK' and parent_obj=a.id and name in (
+		SELECT name FROM sysindexes WHERE indid in( SELECT indid FROM sysindexkeys WHERE id = a.id AND colid=a.colid))) 
+	then 1 else 0 end,
+Type = b.name,
+--ByteLength = a.length,-- 占用字节数
+Length = COLUMNPROPERTY(a.id,a.name,'PRECISION'),
+Scale = isnull(COLUMNPROPERTY(a.id,a.name,'Scale'),0),--小数位数
+IsNullable = case when a.isnullable=1 then 1 else 0 end,
+[Default] = isnull(e.text,''),
+Remark = isnull(g.[value],'')
+FROM syscolumns a
+LEFT JOIN systypes b on a.xusertype=b.xusertype
+INNER JOIN sysobjects d on a.id=d.id and d.xtype='U' and d.name<>'dtproperties'
+LEFT JOIN syscomments e on a.cdefault=e.id
+LEFT JOIN sys.extended_properties g on a.id=G.major_id and a.colid=g.minor_id
+LEFT JOIN sys.extended_properties f on d.id=f.major_id and f.minor_id=0
+ORDER BY a.id,a.colorder 
+";
+}
+class Table{
+    public string Name{get;set;}
+    public string Remark{get;set;}
+    public List<Column> Columns{get;set;}
+
+    public const string SQL = @"
+SELECT 
+	Name = obj.name,
+	Remark = ISNULL(extprop.value,'')
+FROM sysobjects obj 
+LEFT JOIN sys.extended_properties extprop on extprop.major_id =obj.id AND extprop.minor_id = 0
+WHERE obj.xtype='U'    
+";
+}
+#>
+<#+
+class Database {
+    private readonly string _conn;
+    private Dictionary<string,string> _mapper;
+    public Database():this("Server=LocalHost;Integrated Security=SSPI;Database=Shao.ApiTemp"){}
+    public Database(string conn) {
+        _conn = conn;
+        InitMapper();
+    }
+    public List<Table> GetAllTable(){
+        System.Data.IDbConnection conn = new SqlConnection(_conn);
+        try
+        {
+            conn.Open();
+            var tables = Dapper.SqlMapper.Query<Table>(conn, Table.SQL).ToList();
+            var columns = SqlMapper.Query<Column>(conn, Column.SQL);
+            foreach(Table table in tables){
+                table.Columns = columns.Where(x=>x.TableName == table.Name).ToList();
+            }
+            return tables;
+        }
+        finally
+        {
+            conn.Close();
+        }
+        return new List<Table>();
+    }
+    public string ToCSharpType(Column column){
+        var key = column.Type;
+        string type = "object"; 
+        if(_mapper.ContainsKey(key)){
+            type = _mapper[key];
+        }
+        if(column.IsNullable){
+            type += "?";
+        }
+        return type;
+    }
+    public string ToRemark(Column column){
+        var builder = new StringBuilder();
+        if(column.IsIdentity) builder.Append("Identity ");
+        if(column.IsPrimaryKey) builder.Append("PrimaryKey ");
+        builder.Append(column.Type);
+        if(column.Length > 0) builder.Append("(" + column.Length + ")");
+        if(column.Scale > 0) builder.Append("[" + column.Scale + "]");
+        if(column.IsNullable) builder.Append("Nullable ");
+        if(column.Default.Length > 0) builder.Append("DEFAULT(" + column.Default + ")");
+        return builder.ToString();
+    }
+
+    public void InitMapper(){
+        _mapper = new Dictionary<string,string>();
+        _mapper.Add("bigint","long");
+        _mapper.Add("numeric","decimal");
+        _mapper.Add("bit","bool");
+        _mapper.Add("smallint","short");
+        _mapper.Add("decimal","decimal");
+        _mapper.Add("smallmoney","decimal");
+        _mapper.Add("int","int");
+        _mapper.Add("tinyint","int");
+        _mapper.Add("money","decimal");
+        _mapper.Add("float","float");
+        _mapper.Add("real","float");
+        _mapper.Add("date","DateOnly");
+        _mapper.Add("datetimeoffset","TimeSpan");
+        _mapper.Add("datetime2","DateTime");
+        _mapper.Add("smalldatetime","DateTime");
+        _mapper.Add("datetime","DateTime");
+        _mapper.Add("time","time");
+        _mapper.Add("char","char");
+        _mapper.Add("varchar","string");
+        _mapper.Add("text","string");
+        _mapper.Add("nchar","string");
+        _mapper.Add("nvarchar","string");
+        _mapper.Add("ntext","string");
+    }
+}
+#>

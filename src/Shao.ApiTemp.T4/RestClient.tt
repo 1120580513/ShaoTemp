@@ -1,0 +1,46 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<#
+    var tableName = table.Name; 
+    var lowerTableName = Const.ToLower(tableName);
+    var primaryKeyColumn = table.Columns.FirstOrDefault(x=>x.IsPrimaryKey)??table.Columns.First();
+    var keyname = primaryKeyColumn.Name.ToLower();
+#>
+<# manager.StartBlock(tableName+".rest"); #>
+@Controller=<#= tableName #>
+@Url = {{Host_ShaoTempApi}}/{{Controller}}
+@<#= keyname #>  = 1
+
+### 
+POST {{Url}}/Query HTTP/1.1
+Content-Type: application/json
+
+{
+  "page": 1,
+  "pageSize": 10
+}
+### 
+GET {{Url}}/Get?<#= primaryKeyColumn.Name #>={{<#= keyname #>}} HTTP/1.1
+
+### 
+POST {{Url}}/Save HTTP/1.1
+Content-Type: application/json
+
+{
+}
+
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>

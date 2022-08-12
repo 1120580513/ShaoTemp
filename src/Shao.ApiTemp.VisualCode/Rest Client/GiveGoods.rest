@@ -1,0 +1,32 @@
+@Controller=GiveGoods
+@Url = {{Host_ShaoTempApi}}/{{Controller}}
+@givegoodsid  = 1
+
+### 
+POST {{Url}}/Query HTTP/1.1
+Content-Type: application/json
+
+{
+  "page": 1,
+  "pageSize": 10
+}
+
+### 
+POST {{Url}}/Save HTTP/1.1
+Content-Type: application/json
+
+
+### 
+POST {{Url}}/Open HTTP/1.1
+Content-Type: application/json
+
+{
+  "giveGoodsId": {{givegoodsid}}
+}
+### 
+POST {{Url}}/Close HTTP/1.1
+Content-Type: application/json
+
+{
+  "giveGoodsId": {{givegoodsid}}
+}

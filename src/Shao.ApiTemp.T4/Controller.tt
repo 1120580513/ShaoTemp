@@ -1,0 +1,52 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="System" #>
+<#@ include file="Include/ModelAuto.ttinclude"#>
+<#@ include file="Include/Custom.ttinclude"#>
+<#@ include file="Include/Database.ttinclude"#>
+<# 
+var manager = new Manager(Host, GenerationEnvironment, true) {
+    OutputPath = Const.EnsureCurrentPath(Host)
+    };
+var db = new Database();
+var tables = db.GetAllTable();
+#>
+<# foreach(Table table in tables){#>
+<# 
+    var tableName = table.Name; 
+    var lowerTableName = Const.ToLower(table.Name);
+#>
+<# manager.StartBlock(tableName + "Controller.cs"); #>
+using Shao.ApiTemp.Domain.Dto.<#= tableName#>;
+
+namespace Shao.ApiTemp.Controllers;
+
+public class <#= tableName#>Controller : ApiController
+{
+    private readonly I<#= tableName#>Service _<#= lowerTableName#>Service;
+
+    public <#= tableName#>Controller(I<#= tableName#>Service <#= lowerTableName#>Service)
+    {
+        _<#= lowerTableName#>Service = <#= lowerTableName#>Service;
+    }
+
+    [HttpGet]
+    public async Task<R<<#= tableName#>Dto>> Get([FromQuery] <#= tableName#>IdReq? req)
+    {
+        return await _<#= lowerTableName#>Service.Get(req);
+    }
+    [HttpPost]
+    public async Task<R<IEnumerable<Query<#= tableName#>Dto>>> Query(Query<#= tableName#>Req? req)
+    {
+        return await _<#= lowerTableName#>Service.Query(req);
+    }
+
+    [HttpPost]
+    public async Task<R> Save(Save<#= tableName#>Req? req)
+    {
+        return await _<#= lowerTableName#>Service.Save(req);
+    }
+}
+<# manager.EndBlock(); #>
+<#}#>
+
+<# manager.Process(true); #>
