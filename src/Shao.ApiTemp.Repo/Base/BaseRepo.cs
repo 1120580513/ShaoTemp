@@ -6,8 +6,6 @@ namespace Shao.ApiTemp.Repo.Base;
 
 public partial class BaseRepo : IEnsure
 {
-    protected const int DefaultTimout = 10;
-    private const string DefaultErrMsg = "仓储操作失败";
     protected readonly ICustomLog Log;
     private readonly string _connStr;
 
@@ -20,74 +18,83 @@ public partial class BaseRepo : IEnsure
     }
 
     protected async Task<R> TranTemplate(
-        Func<IDbConnection, IDbTransaction, Task> func, string methodName, string? errMsg, params object[] args)
+        UnitOfWork unitOfWork,
+        Func<UnitOfWork, Task> func, string methodName, string errMsg, params object[] args)
     {
         try
         {
-            using var conn = CreateDbConnection();
-            conn.Open();
-            using var tran = CreateDbTransaction(conn);
-            await func(conn, tran);
-            tran.Commit();
+            unitOfWork = EnsureTranUnitOfWork(unitOfWork);
+            await func(unitOfWork);
+            unitOfWork.Commit();
             return R.Succ();
         }
-        catch(RepositoryException repoEx)
+        catch (RepositoryException repoEx)
         {
-            Debug.Assert(false);
-            Log.Error(methodName, repoEx, args);
             throw repoEx;
         }
         catch (Exception ex)
         {
             Debug.Assert(false);
             Log.Error(methodName, ex, args);
-            throw new RepositoryException(errMsg ?? DefaultErrMsg, ex, methodName, args);
+            throw new RepositoryException(errMsg, ex, methodName, args);
         }
     }
+
     private async Task<T> Template<T>(
-        Func<IDbConnection, Task<T>> func, string methodName, string? errMsg, params object[] args)
+        Func<Task<T>> func, string methodName, string? errMsg, params object[] args)
     {
         try
         {
-            using var conn = CreateDbConnection();
-            return await func(conn);
+            return await func();
         }
         catch (Exception ex)
         {
             Debug.Assert(false);
             Log.Error(methodName, ex, args);
-            throw new RepositoryException(errMsg ?? DefaultErrMsg, ex, methodName, args);
+            throw new RepositoryException(errMsg, ex, methodName, args);
         }
     }
     private async Task Template(
-        Func<IDbConnection, Task> func, string methodName, string? errMsg, params object[] args)
+        Func<Task> func, string methodName, string? errMsg, params object[] args)
     {
         try
         {
-            using var conn = CreateDbConnection();
-            await func(conn);
+            await func();
         }
         catch (Exception ex)
         {
             Debug.Assert(false);
             Log.Error(methodName, ex, args);
-            throw new RepositoryException(errMsg ?? DefaultErrMsg, ex, methodName, args);
+            throw new RepositoryException(errMsg, ex, methodName, args);
         }
     }
-
-    protected TPersisent Ensure<TPersisent>(TPersisent? persisent, string message)
-        where TPersisent : IPersistant
+    /// <returns>返回一个必定有连接的工作单元</returns>
+    protected UnitOfWork EnsureUnitOfWork(UnitOfWork? connContext = null)
     {
-        AreEnsure(persisent is not null, message);
-        return persisent!;
+        if (NeedInitUnitOfWork(connContext))
+        {
+            var conn = CreateDbConnection();
+            return new UnitOfWork(conn);
+        }
+        return connContext!;
+    }
+    /// <returns>返回一个必定有事务的工作单元</returns>
+    protected UnitOfWork EnsureTranUnitOfWork(UnitOfWork? connContext)
+    {
+        if (NeedInitUnitOfWork(connContext))
+        {
+            return CreateTranUnitOfWork();
+        }
+        return connContext!;
     }
     /// <inheritdoc />
-    /// <exception cref="RepositoryException" />
-    public void AreEnsure(bool condition, string msg, params object[] args)
+    public UnitOfWork CreateTranUnitOfWork()
     {
-        if (!condition) throw new RepositoryException(msg, args);
+        var conn = CreateDbConnection();
+        conn.Open();
+        var tran = CreateDbTransaction(conn);
+        return new UnitOfWork(conn, tran);
     }
-
     private IDbConnection CreateDbConnection()
     {
         return new SqlConnection(_connStr);
@@ -95,5 +102,18 @@ public partial class BaseRepo : IEnsure
     private IDbTransaction CreateDbTransaction(IDbConnection conn)
     {
         return conn.BeginTransaction(IsolationLevel.ReadCommitted);
+    }
+    private bool NeedInitUnitOfWork(UnitOfWork? unitOfWork)
+    {
+        return unitOfWork is null
+            || ReferenceEquals(unitOfWork, UnitOfWork.Default)
+            || unitOfWork.Conn is null;
+    }
+
+    /// <inheritdoc />
+    /// <exception cref="RepositoryException" />
+    public void AreEnsure(bool condition, string msg, params object[] args)
+    {
+        if (!condition) throw new RepositoryException(msg, args);
     }
 }

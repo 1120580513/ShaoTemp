@@ -22,11 +22,8 @@ public static class BootstrapExtensions
         return hostBuilder;
     }
 
-    public static void AutofacConfigureContainer(this ContainerBuilder builder, params Type[] instances)
+    public static void CustomAutofacConfigureContainer(this ContainerBuilder builder, params Type[] instances)
     {
-        // 强制指定验证语言
-        ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("zh-CN");
-
         builder.RegisterModule(new ApplicationModule(instances));
     }
 }

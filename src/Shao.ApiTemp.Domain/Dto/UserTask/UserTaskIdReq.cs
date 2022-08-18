@@ -1,14 +1,22 @@
+using Shao.ApiTemp.Domain.UserTask;
+
 namespace Shao.ApiTemp.Domain.Dto.UserTask;
 
 /// <summary>
 ///  唯一用户任务
 /// </summary>
-public class UserTaskIdReq : Req
+public class UserTaskIdReq : Req, IUserTaskId
 {
     /// <summary>
     ///  
     /// </summary>
-    public long UserTaskId {get;set;} 
+    public long UserTaskId { get; set; }
+    
+    public UserTaskIdReq() { }
+    public UserTaskIdReq(long id) 
+    {
+        UserTaskId = id;
+    }
 }
 public class UserTaskIdReqValitator : AbstractValidator<UserTaskIdReq>
 {

@@ -10,16 +10,22 @@ Content-Type: application/json
   "page": 1,
   "pageSize": 10
 }
-### 
-GET {{Url}}/Get?UserTaskId={{usertaskid}} HTTP/1.1
 
 ### 
-POST {{Url}}/Save HTTP/1.1
+POST {{Url}}/Claim HTTP/1.1
 Content-Type: application/json
 
 {
+  "promoteTaskSpecId": 5,
+  "claimUser": {
+    "mobile": "17600000001"
+  }
 }
+### 
+POST {{Url}}/Match HTTP/1.1
+Content-Type: application/json
 
-'279622216adasfdfsdaasdfsdaf8030642867',
-'279752418adasfdfsdaasdfsdaf2037268752',
-'279720943adasfdfsdaasdfsdaf3076605505'
+{
+  "userTaskId": 3,
+  "orderNo": "ssst"
+}

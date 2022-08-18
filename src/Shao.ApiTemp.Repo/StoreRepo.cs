@@ -3,9 +3,9 @@ using Shao.ApiTemp.Domain.Store;
 
 namespace Shao.ApiTemp.Repo;
 
-public class StoreRepo : DefaultRepo<StoreRepo>, IStoreRepo
+public class StoreRepo : DefaultConnRepo<StoreRepo>, IStoreRepo
 {
-    public async Task<StoreDo> Get(StoreIdReq req)
+    public async Task<StoreDo> Get(IStoreId req)
     {
         var storePo = await GetPersisent<StorePo, long>(req.StoreId, "店铺不存在");
         var store = await ToDo(storePo);
@@ -44,13 +44,15 @@ FROM dbo.Store WITH(NOLOCK)
     {
         var storePo = App.Map<StoreDo, StorePo>(store);
         storePo.ModifyOn = DateTime.Now;
-        return await InsertOrUpdate(storePo, "保存店铺失败");
+        await InsertOrUpdate(storePo, UnitOfWork.Default, "保存店铺失败");
+        return R.Succ();
     }
     public async Task<R> SaveConfig(StoreDo store)
     {
         var storeConfigPo = App.Map<StoreConfigDo, StoreConfigPo>(store.Config!);
         storeConfigPo.StoreId = store.StoreId;
-        return await InsertOrUpdate(storeConfigPo, "保存店铺配置失败");
+         await InsertOrUpdate(storeConfigPo, UnitOfWork.Default, "保存店铺配置失败");
+        return R.Succ();
     }
 
     private async Task<StoreDo> ToDo(StorePo po)

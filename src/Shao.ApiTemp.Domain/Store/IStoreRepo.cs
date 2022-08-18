@@ -4,7 +4,7 @@ namespace Shao.ApiTemp.Domain.Store;
 
 public interface IStoreRepo : IRepository
 {
-    Task<StoreDo> Get(StoreIdReq req);
+    Task<StoreDo> Get(IStoreId req);
     Task<StoreDo?> GetByStoreName(string storeName);
     Task<R<IEnumerable<QueryStoreDto>>> Query(QueryStoreReq req);
 

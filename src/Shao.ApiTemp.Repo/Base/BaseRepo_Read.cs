@@ -1,19 +1,21 @@
-﻿using Dapper;
-using Dapper.Contrib.Extensions;
-
-namespace Shao.ApiTemp.Repo.Base;
+﻿namespace Shao.ApiTemp.Repo.Base;
 
 public partial class BaseRepo
 {
     protected async Task<TPersisent> GetPersisent<TPersisent, TPersisentKey>(TPersisentKey id, string errMsg)
         where TPersisent : class, IPersistant
     {
-        TPersisent? r = await Template(
-            async conn => await conn.GetAsync<TPersisent>(id), nameof(GetPersisent), errMsg, id);
-        return Ensure(r, errMsg);
+        var connContext = EnsureUnitOfWork();
+        return await Template(async () =>
+        {
+            var persisent = await connContext.GetById<TPersisent, TPersisentKey>(id);
+            AreEnsure(persisent is not null, errMsg, id);
+            return persisent!;
+        }, nameof(GetPersisent), errMsg, id);
     }
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="sql"></param>
@@ -23,18 +25,20 @@ public partial class BaseRepo
     ///<exception cref="Exception"></exception>
     protected async Task<T?> QuerySingle<T>(string sql, object? param, string methodName, string errMsg)
     {
-        return await Template(async conn =>
+        var connContext = EnsureUnitOfWork();
+        return await Template(async () =>
         {
-            return await conn.QuerySingleOrDefaultAsync<T>(sql, param, transaction: null, commandTimeout: DefaultTimout);
-        }, methodName, errMsg, sql, param);
+            return await connContext.QuerySingle<T>(sql, param);
+        }, nameof(GetPersisent), errMsg, sql, param);
     }
 
     protected async Task<IEnumerable<T>> Query<T>(string sql, object? param, string methodName, string errMsg)
     {
-        return await Template(async conn =>
+        var connContext = EnsureUnitOfWork();
+        return await Template(async () =>
         {
-            return await conn.QueryAsync<T>(sql, param, transaction: null, commandTimeout: DefaultTimout);
-        }, methodName, errMsg, sql);
+            return await connContext.Query<T>(sql, param);
+        }, nameof(GetPersisent), errMsg, sql, param);
     }
 
     /// <summary>
@@ -44,30 +48,27 @@ public partial class BaseRepo
     protected async Task<R<IEnumerable<T>>> PageQuery<T>(
         string sql, object? param, PageReq pageReq, string orderBy, string methodName, string errMsg)
     {
-        var pageCountSql = $@"SELECT COUNT(*)
+        var connContext = EnsureUnitOfWork();
+        return await Template(async () =>
+        {
+            var pageCountSql = $@"SELECT COUNT(*)
 FROM ( {string.Format(sql, string.Empty)}
 ) __page
 ";
-        int total = await Template(async conn =>
-        {
-            return await conn.QuerySingleAsync<int>(
-                pageCountSql, param, transaction: null, commandTimeout: DefaultTimout);
-        }, methodName, errMsg, pageCountSql, sql);
-        var pageR = new PageR(pageReq, total);
-        if (total == default)
-        {
-            return R.Succ(Enumerable.Empty<T>(), pageR);
-        }
+            var total = await connContext.QuerySingle<int>(pageCountSql, param);
+            var pageR = new PageR(pageReq, total);
+            if (total == default)
+            {
+                return R.Succ(Enumerable.Empty<T>(), pageR);
+            }
 
-        var dataSql = $@"SELECT *
+            var dataSql = $@"SELECT *
 FROM ( {string.Format(sql, $"__rowid = ROW_NUMBER() OVER(ORDER BY {orderBy}),")}
 ) __page
 WHERE __rowid >= {pageReq.GetMinRowNo()} AND __rowid <= {pageReq.GetMaxRowNo()}
 ";
-        var data = await Template(async conn =>
-        {
-            return await conn.QueryAsync<T>(dataSql, param, transaction: null, commandTimeout: DefaultTimout);
-        }, methodName, errMsg, dataSql, sql);
-        return R.Succ(data, pageR);
+            var data = await connContext.Query<T>(dataSql, param);
+            return R.Succ(data, pageR);
+        }, nameof(GetPersisent), errMsg, sql, param);
     }
 }

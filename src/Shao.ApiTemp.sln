@@ -47,7 +47,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.T4", "Shao.Api
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.Repo.Sql", "Shao.ApiTemp.Repo.Sql\Shao.ApiTemp.Repo.Sql.csproj", "{E9A83270-C4EC-4D4F-8B35-9431A7081376}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.FunctionalTests", "Shao.ApiTemp.FunctionalTests\Shao.ApiTemp.FunctionalTests.csproj", "{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.FunctionalTests", "Shao.ApiTemp.FunctionalTests\Shao.ApiTemp.FunctionalTests.csproj", "{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.AutoTask", "Shao.ApiTemp.AutoTask\Shao.ApiTemp.AutoTask.csproj", "{D159A963-9A23-47BA-8B65-2F79F27D2E0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.DomainService", "Shao.ApiTemp.DomainService\Shao.ApiTemp.DomainService.csproj", "{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.Repo.Remote", "Shao.ApiTemp.Repo.Remote\Shao.ApiTemp.Repo.Remote.csproj", "{3971D074-ADEE-4EF2-9063-65FBC2B9B200}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +109,18 @@ Global
 		{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D159A963-9A23-47BA-8B65-2F79F27D2E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D159A963-9A23-47BA-8B65-2F79F27D2E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D159A963-9A23-47BA-8B65-2F79F27D2E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D159A963-9A23-47BA-8B65-2F79F27D2E0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +142,9 @@ Global
 		{AF7D95C2-80DA-4C16-875C-EDC34B0DEEFE} = {DDA6DB6B-EAF8-44A6-9DCC-84C4C67B050E}
 		{E9A83270-C4EC-4D4F-8B35-9431A7081376} = {F799BBC0-80F7-4DDF-8465-8BB55CF12090}
 		{C7D8EECB-910F-42BA-A6CF-BE34B7C1AB84} = {12E541D0-7FC3-4984-8029-FCA17E9DDC80}
+		{D159A963-9A23-47BA-8B65-2F79F27D2E0A} = {36FB05A9-E9CF-47AA-B9C5-06437B69ED35}
+		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556} = {2D4565CF-BD87-498E-AA4E-396CD85AF9FC}
+		{3971D074-ADEE-4EF2-9063-65FBC2B9B200} = {F799BBC0-80F7-4DDF-8465-8BB55CF12090}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F10BCB-B7EB-426D-AA90-CFA5A1947790}

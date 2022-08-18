@@ -59,7 +59,7 @@ public class PromoteTaskDo : BaseDo, IPromoteTaskId
     {
         var canSave = PromoteTaskStatus == PromoteTaskStatus.Unpublished
             || PromoteTaskStatus == PromoteTaskStatus.Published;
-        AreEnsure(canSave, $"{PromoteTaskStatus.GetDisplayFormat()} 不能修改", PromoteTaskId, PromoteTaskStatus);
+        AreEnsure(canSave, $"{PromoteTaskStatus.DisplayFormat()} 不能修改", PromoteTaskId, PromoteTaskStatus);
 
         PromoteTaskName = req.PromoteTaskName;
         StartTime = req.StartTime;
@@ -95,27 +95,27 @@ public class PromoteTaskDo : BaseDo, IPromoteTaskId
     public void Publish()
     {
         AreEnsure(PromoteTaskStatus == PromoteTaskStatus.Unpublished,
-            $"{PromoteTaskStatus.GetDisplayFormat()} 不能发布", PromoteTaskId, PromoteTaskStatus);
+            $"{PromoteTaskStatus.DisplayFormat()} 不能发布", PromoteTaskId, PromoteTaskStatus);
         PromoteTaskStatus = PromoteTaskStatus.Published;
     }
     public void Close()
     {
         AreEnsure(PromoteTaskStatus == PromoteTaskStatus.Published,
-            $"{PromoteTaskStatus.GetDisplayFormat()} 不能终止", PromoteTaskId, PromoteTaskStatus);
+            $"{PromoteTaskStatus.DisplayFormat()} 不能终止", PromoteTaskId, PromoteTaskStatus);
         PromoteTaskStatus = PromoteTaskStatus.Closed;
     }
     public void Delete()
     {
         AreEnsure(PromoteTaskStatus == PromoteTaskStatus.Unpublished
             || PromoteTaskStatus == PromoteTaskStatus.Closed,
-            $"{PromoteTaskStatus.GetDisplayFormat()} 不能删除", PromoteTaskId, PromoteTaskStatus);
+            $"{PromoteTaskStatus.DisplayFormat()} 不能删除", PromoteTaskId, PromoteTaskStatus);
         PromoteTaskStatus = PromoteTaskStatus.Deleted;
     }
 
     public void EnsureCanClaim(ClaimUser claimUser)
     {
         AreEnsure(PromoteTaskStatus == PromoteTaskStatus.Published,
-            $"{PromoteTaskName} {PromoteTaskStatus.GetDisplayFormat()} 不可领取", PromoteTaskId, PromoteTaskStatus);
+            $"{PromoteTaskName} {PromoteTaskStatus.DisplayFormat()} 不可领取", PromoteTaskId, PromoteTaskStatus);
     }
 
     private async Task LoadStore(IStoreId storeId)

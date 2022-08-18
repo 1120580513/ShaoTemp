@@ -29,7 +29,7 @@ public static class DisplayAttrbuteExtensions
         return (DisplayAttribute)displayAttributes[0];
     }
 
-    public static string GetDisplayFormat(this Enum @enum)
+    public static string DisplayFormat(this Enum @enum)
     {
         return $"{GetDisplay(@enum).Name}({@enum.GetHashCode()})";
     }

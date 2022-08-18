@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Hosting;
 
 namespace Shao.ApiTemp.Common.AutofacModules;
 
@@ -33,19 +34,26 @@ public class ApplicationModule : Module
         {
             if (typeof(IAppService).IsAssignableFrom(type))
             {
-                builder.RegisterAssemblyTypes(type.Assembly).As<IAppService>().AsImplementedInterfaces()
-                    .SingleInstance();
+                builder.RegisterAssemblyTypes(type.Assembly).AsImplementedInterfaces().SingleInstance();
             }
             else if (typeof(IRepository).IsAssignableFrom(type))
             {
-                builder.RegisterAssemblyTypes(type.Assembly).As<IRepository>().AsImplementedInterfaces()
-                    .SingleInstance();
+                builder.RegisterAssemblyTypes(type.Assembly).AsImplementedInterfaces().SingleInstance();
             }
             else if (typeof(IReq).IsAssignableFrom(type))
             {
                 builder.RegisterAssemblyTypes(type.Assembly).Where(x => x.IsClosedTypeOf(typeof(IValidator<>)))
                     .AsImplementedInterfaces()
                     .SingleInstance();
+            }
+            else if (typeof(IDomainService).IsAssignableFrom(type))
+            {
+                builder.RegisterAssemblyTypes(type.Assembly).SingleInstance();
+            }
+            else if (typeof(BackgroundService).IsAssignableFrom(type))
+            {
+                builder.RegisterAssemblyTypes(type.Assembly).Where(t => t.IsAssignableFrom(typeof(BackgroundService)))
+                    .As<IHostedService>().InstancePerDependency();
             }
             mapperConfig.AddMaps(type.Assembly);
         }

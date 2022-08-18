@@ -42,7 +42,7 @@ public class UserTaskPo : IPersistant
     public string StoreName {get;set;} 
     
     /// <summary>
-    /// 用户任务状态 0 已领取 1 待审核 2 待匹配 4 待退款 8 退款失败 16 已完成 
+    /// 用户任务状态 
     /// </summary>
     ///<remarks>int(4)</remarks>
     public int UserTaskStatus {get;set;} 
@@ -57,7 +57,7 @@ public class UserTaskPo : IPersistant
     /// 订单号 
     /// </summary>
     ///<remarks>varchar(64)Nullable </remarks>
-    public string? OrderNo {get;set;} 
+    public string OrderNo {get;set;} 
     
     /// <summary>
     /// 匹配时间 
@@ -69,7 +69,7 @@ public class UserTaskPo : IPersistant
     ///  
     /// </summary>
     ///<remarks>datetime(8)[3]</remarks>
-    public DateTime CreateOn {get;set;} 
+    public DateTime ClaimOn { get;set;} 
     
     /// <summary>
     ///  

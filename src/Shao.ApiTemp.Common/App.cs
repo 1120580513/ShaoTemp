@@ -11,6 +11,8 @@ public static partial class App
     private static IConfiguration _config;
     private static log4net.ILog _log;
     private static IMapper _mapper;
+    private static IUnitOfWorkFactory _unitOfWorkFactory;
+
     public static void Init(
         ILifetimeScope serviceProvider,
         IConfiguration configuration)
@@ -19,6 +21,7 @@ public static partial class App
         _config = configuration;
         _log = serviceProvider.Resolve<log4net.ILog>();
         _mapper = serviceProvider.Resolve<IMapper>();
+        _unitOfWorkFactory = serviceProvider.Resolve<IUnitOfWorkFactory>();
     }
 
     public static T Resolve<T>() where T : notnull
@@ -38,12 +41,21 @@ public static partial class App
         if (source is null) return null;
         return Map<TSoure, TDestination>(source!);
     }
+
     public static TDestination Map<TSoure, TDestination>(TSoure source)
     {
         return _mapper.Map<TSoure, TDestination>(source);
     }
+
     public static IEnumerable<TDestination> MapList<TSoure, TDestination>(IEnumerable<TSoure> source)
     {
         return _mapper.Map<IEnumerable<TSoure>, IEnumerable<TDestination>>(source);
+    }
+
+    public static async Task ExecUnitOfWork(Func<UnitOfWork, Task> func)
+    {
+        using var connContext = _unitOfWorkFactory.CreateTranUnitOfWork();
+        await func(connContext);
+        connContext.Commit();
     }
 }

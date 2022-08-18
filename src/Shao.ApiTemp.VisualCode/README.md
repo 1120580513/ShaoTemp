@@ -1,27 +1,5 @@
-﻿# REST Client
+﻿# Shao.ApiTemp.VisualCode
 
-- 安装 REST Client 插件
+> 使用 Visual Code 打开此项目
 
-## Json 配置
-
-```json
-{
-    ...
-    "rest-client.previewOption": "exchange",
-    "rest-client.environmentVariables": {
-        "$shared": {
-            "Host_ShaoTempApi": "http://localhost:30000"
-        },
-        "local": {
-        },
-        "dev": {
-        },
-        "test": {
-        },
-        "pre": {
-        },
-        "prod": {
-        }
-    },
-}
-```
+> 此项目使用 Visual Code 的插件

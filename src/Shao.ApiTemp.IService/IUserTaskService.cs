@@ -7,4 +7,5 @@ public interface IUserTaskService : IAppService
     Task<R<IEnumerable<QueryUserTaskDto>>> Query(QueryUserTaskReq req);
 
     Task<R> Claim(CliamUserTaskReq req);
+    Task<R> Match(MatchUserTaskReq req);
 }

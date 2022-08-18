@@ -82,7 +82,7 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'推广任务名称' 
 	@level1type=N'TABLE',@level1name=N'PromoteTask', 
 	@level2type=N'COLUMN',@level2name=N'PromoteTaskName'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'推广任务状态 0 待发布 1 已发布 2 已停止 4 已作废' , @level0type=N'SCHEMA',@level0name=N'dbo', 
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'推广任务状态' , @level0type=N'SCHEMA',@level0name=N'dbo', 
 	@level1type=N'TABLE',@level1name=N'PromoteTask', 
 	@level2type=N'COLUMN',@level2name=N'PromoteTaskStatus'
 GO
@@ -121,14 +121,14 @@ CREATE TABLE UserTask(
 	Mobile VARCHAR(11) NOT NULL,
 	OrderNo VARCHAR(64) NULL,
 	MatchOn DATETIME NULL,
-	CreateOn DATETIME NOT NULL,
+	ClaimOn DATETIME NOT NULL,
 	ModifyOn DATETIME NOT NULL,
 )
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户任务' , 
 	@level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'UserTask'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户任务状态 0 已领取 1 待审核 2 待匹配 4 待退款 8 退款失败 16 已完成' , @level0type=N'SCHEMA',@level0name=N'dbo', 
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'用户任务状态' , @level0type=N'SCHEMA',@level0name=N'dbo', 
 	@level1type=N'TABLE',@level1name=N'UserTask', 
 	@level2type=N'COLUMN',@level2name=N'UserTaskStatus'
 GO
@@ -143,3 +143,18 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'匹配时间' , @level0type=N'SCHEMA',@level0name=N'dbo', 
 	@level1type=N'TABLE',@level1name=N'UserTask', 
 	@level2type=N'COLUMN',@level2name=N'MatchOn'
+GO
+CREATE TABLE UserTaskRecord(
+	UserTaskRecordId BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	UserTaskId BIGINT NOT NULL,
+	PromoteTaskId BIGINT NOT NULL,
+	PromoteTaskSpecId BIGINT NOT NULL,
+	StoreId BIGINT NOT NULL,
+	RefundAmount DECIMAL(18,2) NOT NULL,
+	RefundedAmount DECIMAL(18,2) NOT NULL,
+	GiveGoodsName NVARCHAR(128) NOT NULL,
+	GiveGoodsCode VARCHAR(32) NOT NULL,
+	GiveGoodsNum INT NOT NULL,
+	CreateOn DATETIME NULL,
+	ModifyOn DATETIME NOT NULL
+)

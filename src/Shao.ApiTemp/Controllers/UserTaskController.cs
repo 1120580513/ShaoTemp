@@ -22,4 +22,9 @@ public class UserTaskController : ApiController
     {
         return await _userTaskService.Claim(req);
     }
+    [HttpPost]
+    public async Task<R> Match(MatchUserTaskReq req)
+    {
+        return await _userTaskService.Match(req);
+    }
 }

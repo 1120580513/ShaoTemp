@@ -1,8 +1,8 @@
 ﻿namespace Shao.ApiTemp.Repo.Base;
 
-public class DefaultRepo<TCurrentRepo> : BaseRepo
+public class DefaultConnRepo<TCurrentRepo> : BaseRepo, IUnitOfWorkFactory
 {
-    public DefaultRepo() : base(
+    public DefaultConnRepo() : base(
      App.Config.ConnStr,
      App.CreateLog<TCurrentRepo>())
     {

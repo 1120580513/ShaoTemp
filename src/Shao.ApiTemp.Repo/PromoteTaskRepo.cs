@@ -4,7 +4,7 @@ using Shao.ApiTemp.Domain.Store;
 
 namespace Shao.ApiTemp.Repo;
 
-public class PromoteTaskRepo : DefaultRepo<PromoteTaskRepo>, IPromoteTaskRepo
+public class PromoteTaskRepo : DefaultConnRepo<PromoteTaskRepo>, IPromoteTaskRepo
 {
     private readonly IStoreRepo _storeRepo;
 
@@ -29,26 +29,35 @@ public class PromoteTaskRepo : DefaultRepo<PromoteTaskRepo>, IPromoteTaskRepo
     }
     public async Task<R<IEnumerable<QueryPromoteTaskDto>>> Query(QueryPromoteTaskReq req)
     {
-        var sql = @"
+        var sql = new SqlBuilder(@"
 SELECT  {0}*
 FROM dbo.PromoteTask WITH(NOLOCK)
-";
+{1}
+")
+            .Fill[0].Append("{0}")
+            .Builder.Fill[1]
+            .Where.ParamAnd(nameof(PromoteTaskPo.StoreId), req.StoreId.HasValue)
+            .ParamAndLike(nameof(PromoteTaskPo.PromoteTaskName), req.PromoteTaskName.IsNotEmpty())
+            .ParamAnd(nameof(PromoteTaskPo.PromoteTaskStatus), req.PromoteTaskStatus.HasValue)
+            .ParamAndStart(nameof(PromoteTaskPo.CreateOn), nameof(req.StartTime), req.StartTime.HasValue)
+            .ParamAndEnd(nameof(PromoteTaskPo.CreateOn), nameof(req.EndTime), req.EndTime.HasValue)
+            .Builder.Build();
         return await PageQuery<QueryPromoteTaskDto>(sql, req, req, "ModifyOn DESC", nameof(Query), "查询推广任务失败");
     }
 
-    public async Task<R> Save(PromoteTaskDo promoteTask)
+    public async Task<R> Save(PromoteTaskDo promoteTask, UnitOfWork unitOfWork)
     {
         var promoteTaskPo = App.Map<PromoteTaskDo, PromoteTaskPo>(promoteTask);
         promoteTaskPo.ModifyOn = DateTime.Now;
 
-        return await TranTemplate(async (conn, tran) =>
+        return await TranTemplate(unitOfWork, async unitOfWork =>
          {
-             await TranInsertOrUpdate(promoteTaskPo, conn, tran);
+             await InsertOrUpdate(promoteTaskPo, unitOfWork, "保存推广任务失败");
              foreach (var specDo in promoteTask.Specs)
              {
                  var specPo = App.Map<PromoteTaskSpecDo, PromoteTaskSpecPo>(specDo);
                  specPo.PromoteTaskId = promoteTaskPo.PromoteTaskId;
-                 await TranInsertOrUpdateOrDelete(specDo.IsDelete, specPo, conn, tran);
+                 await InsertOrUpdateOrDelete(specDo.IsDelete, specPo, unitOfWork, "保存推广任务规格失败");
              }
          }, nameof(Save), "保存推广任务失败", promoteTask, promoteTaskPo);
     }

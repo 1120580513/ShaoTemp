@@ -15,12 +15,28 @@ public class SqlBuilderWhere : SqlBuilderParam
         _builder.AppendFormat("{0} = '{1}'", colName, val);
         return this;
     }
+    public SqlBuilderWhere ParamAndStart(string colName, string paramName, bool isAppend)
+    {
+        if (!isAppend) return this;
+
+        AppendPrefix();
+        _builder.AppendFormat("{0} >= @{1}", colName, paramName);
+        return this;
+    }
+    public SqlBuilderWhere ParamAndEnd(string colName, string paramName, bool isAppend)
+    {
+        if (!isAppend) return this;
+
+        AppendPrefix();
+        _builder.AppendFormat("{0} < @{1}", colName, paramName);
+        return this;
+    }
     public SqlBuilderWhere ParamAndLike(string colName, bool isAppend)
     {
         if (!isAppend) return this;
 
         AppendPrefix();
-        _builder.AppendFormat("{0} LIKE @{0}+'%'", colName);
+        _builder.AppendFormat("{0} LIKE '%'+@{0}+'%'", colName);
         return this;
     }
     public SqlBuilderWhere ParamAnd(string colName, bool isAppend)

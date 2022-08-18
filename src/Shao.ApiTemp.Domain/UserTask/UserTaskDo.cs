@@ -57,6 +57,24 @@ public class UserTaskDo : BaseDo, IUserTaskId
         return userTask;
     }
 
+    public void EnsureCanMatch()
+    {
+        AreEnsure(UserTaskStatus == UserTaskStatus.WaitMatch, 
+            $"{UserTaskStatus.DisplayFormat()} 不可匹配", UserTaskId, UserTaskStatus);
+    }
+    public void SetToWaitAudit()
+    {
+        AreEnsure(UserTaskStatus == UserTaskStatus.WaitMatch,
+            $"{UserTaskStatus.DisplayFormat()} 不可置为审核状态", UserTaskId, UserTaskStatus);
+        UserTaskStatus = UserTaskStatus.WaitAudit;
+    }
+    public void SetToWaitRefund()
+    {
+        AreEnsure(UserTaskStatus == UserTaskStatus.WaitMatch,
+            $"{UserTaskStatus.DisplayFormat()} 不可置为审核状态", UserTaskId, UserTaskStatus);
+        UserTaskStatus = UserTaskStatus.WaitRefund;
+    }
+
     private async Task EnsureCanClaim()
     {
         var claimed = await _repo.HasByPromoteTaskAndUser(ClaimUser, new PromoteTaskIdReq(PromoteTask.PromoteTaskId));

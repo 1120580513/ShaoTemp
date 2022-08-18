@@ -1,68 +1,42 @@
-﻿using Dapper.Contrib.Extensions;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace Shao.ApiTemp.Repo.Base;
 
 public partial class BaseRepo
 {
-    protected async Task<R> InsertOrUpdate<TPersisent>(TPersisent persistent, string errMsg)
+    protected async Task InsertOrUpdateOrDelete<TPersisent>(
+        bool isDelete, TPersisent persistent, UnitOfWork unitOfWork, string errMsg)
         where TPersisent : class, IPersistant
     {
-        bool isSucc;
-        if (persistent.IsInsert())
+        await Template(async () =>
         {
-            isSucc = await Template(async conn =>
-             {
-                 return (await conn.InsertAsync(persistent, commandTimeout: DefaultTimout)) > 0;
-             }, nameof(InsertOrUpdate), errMsg, persistent);
-        }
-        else
-        {
-            isSucc = await Template(async conn =>
-            {
-                return await conn.UpdateAsync(persistent, commandTimeout: DefaultTimout);
-            }, nameof(InsertOrUpdate), errMsg, persistent);
-        }
-        return R.Cond(isSucc, errMsg);
+            unitOfWork = EnsureUnitOfWork(unitOfWork);
+            var r = await unitOfWork.InsertOrUpdateOrDelete(persistent.IsInsert(), isDelete, persistent, errMsg);
+            AreEnsure(r.IsSucc, errMsg, persistent);
+        }, nameof(InsertOrUpdateOrDelete), errMsg, persistent);
     }
 
-    protected async Task TranInsertOrUpdateOrDelete<TPersisent>(
-        bool isDelete, TPersisent persistent, IDbConnection conn, IDbTransaction tran)
+    protected async Task InsertOrUpdate<TPersisent>(TPersisent persistent, UnitOfWork unitOfWork, string errMsg)
         where TPersisent : class, IPersistant
     {
-        if (isDelete)
+        await Template(async () =>
         {
-            var deleted = await conn.DeleteAsync(persistent, tran);
-            AreEnsure(deleted, nameof(TranInsertOrUpdateOrDelete), persistent);
-        }
-        else
-        {
-            await TranInsertOrUpdate(persistent, conn, tran);
-        }
-    }
-    protected async Task TranInsertOrUpdate<TPersisent>(
-        TPersisent persistent, IDbConnection conn, IDbTransaction tran)
-        where TPersisent : class, IPersistant
-    {
-        bool isSucc;
-        if (persistent.IsInsert())
-        {
-            isSucc = (await conn.InsertAsync(persistent, tran, commandTimeout: DefaultTimout)) > 0;
-        }
-        else
-        {
-            isSucc = await conn.UpdateAsync(persistent, tran, commandTimeout: DefaultTimout);
-        }
-        AreEnsure(isSucc, nameof(TranInsertOrUpdate), persistent);
+            unitOfWork = EnsureUnitOfWork(unitOfWork);
+            var r = await unitOfWork.InsertOrUpdateOrDelete(persistent.IsInsert(), false, persistent, errMsg);
+            AreEnsure(r.IsSucc, errMsg, persistent);
+        }, nameof(InsertOrUpdate), errMsg, persistent);
     }
 
-    protected async Task<bool> Delete<TPersisent>(TPersisent persistent, string errMsg)
+    protected async Task Delete<TPersisent>(TPersisent persistent, UnitOfWork unitOfWork, string errMsg)
         where TPersisent : class, IPersistant
     {
-        return await Template(
-            async conn => await conn.DeleteAsync(persistent, commandTimeout: DefaultTimout),
-            nameof(Delete), errMsg, persistent);
+        await Template(async () =>
+        {
+            unitOfWork = EnsureUnitOfWork(unitOfWork);
+            var r = await unitOfWork.InsertOrUpdateOrDelete(false, true, persistent, errMsg);
+            AreEnsure(r.IsSucc, errMsg, persistent);
+        }, nameof(Delete), errMsg, persistent);
     }
 
     protected async Task<R> BulkInsert(DataTable dataTable)

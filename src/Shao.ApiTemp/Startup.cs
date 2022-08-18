@@ -1,10 +1,8 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Shao.ApiTemp.Domain.Dto.UserTask;
+using Shao.ApiTemp.DomainService;
 using Shao.ApiTemp.Infrastructure.Filters;
 using Shao.ApiTemp.Infrastructure.SwaggerGen;
-using Shao.ApiTemp.Repo;
-using Shao.ApiTemp.Service;
+using Shao.ApiTemp.Service.Base;
 
 namespace Shao.ApiTemp;
 
@@ -30,17 +28,12 @@ public class Startup
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
-        builder.AutofacConfigureContainer(
-            typeof(UserTaskService),// 注册所有应用服务
-            typeof(UserTaskRepo), // 注册所有仓储
-            typeof(QueryUserTaskReq) // 注册所有请求参数的验证
-            );
+        Bootstrap.AutofacConfigureContainer(builder);
     }
 
     public void Configure(IApplicationBuilder app)
     {
-        AutofacContainer = app.ApplicationServices.CreateScope().ServiceProvider.GetAutofacRoot();
-        App.Init(AutofacContainer, Configuration);
+        Bootstrap.InitApp(app.ApplicationServices, Configuration);
 
         app.CustomUseSwagger();
 

@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Shao.ApiTemp.DomainService\Shao.ApiTemp.DomainService.csproj" />
     <ProjectReference Include="..\Shao.ApiTemp.IService\Shao.ApiTemp.IService.csproj" />
+    <ProjectReference Include="..\Shao.ApiTemp.Repo.Remote\Shao.ApiTemp.Repo.Remote.csproj" />
     <ProjectReference Include="..\Shao.ApiTemp.Repo\Shao.ApiTemp.Repo.csproj" />
   </ItemGroup>
 

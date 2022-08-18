@@ -14,18 +14,12 @@ public class R
         Errors = errors;
     }
 
-    /// <summary>
-    /// 0 成功 1 失败
-    /// </summary>
     public int Code { get; protected set; }
-    /// <summary>
-    /// 提示
-    /// </summary>
     public string? Msg { get; protected set; }
     public PageR? Page { get; protected set; }
     public List<ErrorR>? Errors { get; protected set; }
 
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public bool IsSucc => Code == CODE_SUCCESS;
 
     public static R Cond(bool isSucc, string failMsg)
@@ -53,17 +47,11 @@ public class R
 public interface R<out T>
 {
     public T? Data { get; }
-    /// <summary>
-    /// 0 成功 1 失败
-    /// </summary>
     public int Code { get; }
-    /// <summary>
-    /// 提示
-    /// </summary>
     public string? Msg { get; }
     public PageR? Page { get; }
     public List<ErrorR>? Errors { get; }
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public bool IsSucc { get; }
 }
 public class RImpl<T> : R, R<T>

@@ -61,7 +61,7 @@ public class <#= doName #> : BaseDo, IEntity
 <#}#>
     }
     private readonly I<#= tableName #>Repo _repo = new Lazy<I<#= tableName #>Repo>(
-        () => AppCrossCut.ServicesContainer.Resolve<I<#= tableName #>Repo>()).Value;
+        () => App.Resolve<I<#= tableName #>Repo>()).Value;
 }
 <# manager.EndBlock(); #>
 

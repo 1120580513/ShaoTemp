@@ -8,7 +8,9 @@ Content-Type: application/json
 
 {
   "page": 1,
-  "pageSize": 10
+  "pageSize": 10,
+  "giveGoodsName": "FakeGiveGoodsName",
+  "giveGoodsCode": "FakeGiveGoodsCode"
 }
 
 ### 

@@ -12,14 +12,14 @@ public class StoreService : BaseService, IStoreService
         _storeRepo = storeRepo;
     }
 
-    public async Task<R<StoreDto>> Get(StoreIdReq req)
+    public async Task<R<StoreDto>> Get(IStoreId req)
     {
         var store = await _storeRepo.Get(req);
         var storeDto = App.Map<StoreDo, StoreDto>(store);
         return R.Succ(storeDto);
     }
     /// <inheritdoc />
-    public async Task<R<StoreConfigDto?>> GetConfig(StoreIdReq req)
+    public async Task<R<StoreConfigDto?>> GetConfig(IStoreId req)
     {
         var store = await _storeRepo.Get(req);
         var storeConfig = App.MapMaybeNull<StoreConfigDo, StoreConfigDto>(store.Config);
@@ -46,13 +46,13 @@ public class StoreService : BaseService, IStoreService
         }
         return await _storeRepo.Save(store);
     }
-    public async Task<R> Open(StoreIdReq req)
+    public async Task<R> Open(IStoreId req)
     {
         var store = await _storeRepo.Get(req);
         store.Open();
         return await _storeRepo.Save(store);
     }
-    public async Task<R> Close(StoreIdReq req)
+    public async Task<R> Close(IStoreId req)
     {
         var store = await _storeRepo.Get(req);
         store.Close();

@@ -3,10 +3,10 @@ using Shao.ApiTemp.Domain.PromoteTask;
 
 namespace Shao.ApiTemp.Domain.UserTask;
 
-public interface IUserTaskRepo : IRepository
+public interface IUserTaskRepo : IRepository<UserTaskDo>
 {
     Task<R<IEnumerable<QueryUserTaskDto>>> Query(QueryUserTaskReq req);
-    Task<UserTaskDo> Get(UserTaskIdReq req);
+    Task<UserTaskDo> Get(IUserTaskId req);
     /// <summary>
     /// <paramref name="claimUser"/> 是否已领取 <paramref name="promoteTaskId"/> 的推广任务
     /// </summary>
@@ -20,7 +20,5 @@ public interface IUserTaskRepo : IRepository
     /// <param name="claimUser"></param>
     /// <returns></returns>
     Task<int> CountClaimed(ClaimUser claimUser, DateTime startTime);
-
-    Task<R> Save(UserTaskDo userTask);
 }
 

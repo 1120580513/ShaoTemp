@@ -10,4 +10,3 @@ global using Shao.ApiTemp.Common.Extensions;
 global using Shao.ApiTemp.Common.Exceptions;
 
 global using FluentValidation;
-global using Autofac;

@@ -1,3 +1,5 @@
+using Shao.ApiTemp.Domain.UserTask;
+
 namespace Shao.ApiTemp.Domain.Dto.UserTask;
 
 /// <summary>
@@ -8,52 +10,43 @@ public class QueryUserTaskReq : PageReq
     /// <summary>
     ///  
     /// </summary>
-    public long UserTaskId {get;set;} 
+    public long? PromoteTaskId { get; set; }
     /// <summary>
     ///  
     /// </summary>
-    public long PromoteTaskId {get;set;} 
+    public long? StoreId { get; set; }
     /// <summary>
-    ///  
+    /// 用户任务状态 
     /// </summary>
-    public string PromoteTaskName {get;set;} 
-    /// <summary>
-    ///  
-    /// </summary>
-    public long StoreId {get;set;} 
-    /// <summary>
-    ///  
-    /// </summary>
-    public string StoreName {get;set;} 
-    /// <summary>
-    /// 用户任务状态 0 已领取 1 待审核 2 待匹配 4 待退款 8 退款失败 16 已完成 
-    /// </summary>
-    public int UserTaskStatus {get;set;} 
+    public UserTaskStatus? UserTaskStatus { get; set; }
     /// <summary>
     /// 用户手机号 
     /// </summary>
-    public string Mobile {get;set;} 
+    public string? Mobile { get; set; }
     /// <summary>
     /// 订单号 
     /// </summary>
-    public string? OrderNo {get;set;} 
+    public string? OrderNo { get; set; }
     /// <summary>
-    /// 匹配时间 
+    /// 推广任务开始时间 
     /// </summary>
-    public DateTime? MatchOn {get;set;} 
+    public DateTime? StartTime { get; set; }
     /// <summary>
-    ///  
+    /// 推广任务结束时间 
     /// </summary>
-    public DateTime CreateOn {get;set;} 
-    /// <summary>
-    ///  
-    /// </summary>
-    public DateTime ModifyOn {get;set;} 
+    public DateTime? EndTime { get; set; }
 }
 public class QueryUserTaskReqValitator : PageReqValidator<QueryUserTaskReq>
 {
     public QueryUserTaskReqValitator()
     {
-        RuleFor(x => x.UserTaskId).Must(x => x > 0).WithMessage("UserTaskId不能为空");
+        RuleFor(x => x.PromoteTaskId).GreaterThan(0).WithName("推广任务标识")
+            .When(x => x.PromoteTaskId.HasValue);
+        RuleFor(x => x.StoreId).GreaterThan(0).WithName("店铺标识")
+            .When(x => x.StoreId.HasValue);
+        RuleFor(x => x.UserTaskStatus).IsInEnum().WithName("用户任务状态")
+            .When(x => x.UserTaskStatus.HasValue);
+        RuleFor(x => x.EndTime).GreaterThan(x => x.StartTime).WithMessage("结束时间必须大于开始时间")
+            .When(x => x.EndTime.HasValue && x.StartTime.HasValue);
     }
 }

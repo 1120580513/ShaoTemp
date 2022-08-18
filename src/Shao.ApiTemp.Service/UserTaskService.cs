@@ -1,14 +1,19 @@
 using Shao.ApiTemp.Domain.Dto.UserTask;
 using Shao.ApiTemp.Domain.UserTask;
+using Shao.ApiTemp.DomainService;
 
 namespace Shao.ApiTemp.Service;
 
 public class UserTaskService : BaseService, IUserTaskService
 {
+    private readonly MatchUserTaskService _matchUserTaskService;
     private readonly IUserTaskRepo _userTaskRepo;
 
-    public UserTaskService(IUserTaskRepo userTaskRepo)
+    public UserTaskService(
+        MatchUserTaskService matchUserTaskService,
+        IUserTaskRepo userTaskRepo)
     {
+        _matchUserTaskService = matchUserTaskService;
         _userTaskRepo = userTaskRepo;
     }
 
@@ -22,5 +27,9 @@ public class UserTaskService : BaseService, IUserTaskService
     {
         var userTask = await UserTaskDo.Claim(req);
         return await _userTaskRepo.Save(userTask);
+    }
+    public async Task<R> Match(MatchUserTaskReq req)
+    {
+        return await _matchUserTaskService.Match(req);
     }
 }
