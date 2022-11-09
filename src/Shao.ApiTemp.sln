@@ -51,9 +51,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.FunctionalTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.AutoTask", "Shao.ApiTemp.AutoTask\Shao.ApiTemp.AutoTask.csproj", "{D159A963-9A23-47BA-8B65-2F79F27D2E0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.DomainService", "Shao.ApiTemp.DomainService\Shao.ApiTemp.DomainService.csproj", "{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.DomainService", "Shao.ApiTemp.DomainService\Shao.ApiTemp.DomainService.csproj", "{3ECA87B6-6050-48C7-AF5C-BA549F4A6556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.Repo.Remote", "Shao.ApiTemp.Repo.Remote\Shao.ApiTemp.Repo.Remote.csproj", "{3971D074-ADEE-4EF2-9063-65FBC2B9B200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shao.ApiTemp.Repo.Remote", "Shao.ApiTemp.Repo.Remote\Shao.ApiTemp.Repo.Remote.csproj", "{3971D074-ADEE-4EF2-9063-65FBC2B9B200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shao.ApiTemp.Subscribe", "Shao.ApiTemp.Subscribe\Shao.ApiTemp.Subscribe.csproj", "{E18A07EF-702A-472B-91CE-3CFA51662F55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,10 @@ Global
 		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3971D074-ADEE-4EF2-9063-65FBC2B9B200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18A07EF-702A-472B-91CE-3CFA51662F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18A07EF-702A-472B-91CE-3CFA51662F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18A07EF-702A-472B-91CE-3CFA51662F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18A07EF-702A-472B-91CE-3CFA51662F55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +151,7 @@ Global
 		{D159A963-9A23-47BA-8B65-2F79F27D2E0A} = {36FB05A9-E9CF-47AA-B9C5-06437B69ED35}
 		{3ECA87B6-6050-48C7-AF5C-BA549F4A6556} = {2D4565CF-BD87-498E-AA4E-396CD85AF9FC}
 		{3971D074-ADEE-4EF2-9063-65FBC2B9B200} = {F799BBC0-80F7-4DDF-8465-8BB55CF12090}
+		{E18A07EF-702A-472B-91CE-3CFA51662F55} = {36FB05A9-E9CF-47AA-B9C5-06437B69ED35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F10BCB-B7EB-426D-AA90-CFA5A1947790}

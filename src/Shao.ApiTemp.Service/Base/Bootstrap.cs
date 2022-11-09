@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Shao.ApiTemp.Common.AutofacModules;
 using Shao.ApiTemp.Domain.Dto.UserTask;
+using Shao.ApiTemp.Domain.Mq;
 using Shao.ApiTemp.DomainService;
 using Shao.ApiTemp.Repo;
 using Shao.ApiTemp.Repo.Base;
@@ -36,5 +37,7 @@ public static class Bootstrap
         ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("zh-CN");
 
         App.Init(serviceProvider.GetAutofacRoot(), configuration);
+        MqBootstrap.Init();
+        App.Mq.Init();
     }
 }

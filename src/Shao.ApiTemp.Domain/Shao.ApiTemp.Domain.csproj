@@ -4,14 +4,18 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <DocumentationFile>Shao.ApiTemp.Dto.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Shao.ApiTemp.Common\Shao.ApiTemp.Common.csproj" />
     </ItemGroup>
-
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile>KedeGroup.Promote.DTO.xml</DocumentationFile>
+    </PropertyGroup>
     <ItemGroup>
-      <Folder Include="ValueObject\" />
+        <None Update="Shao.ApiTemp.Dto.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
-
 </Project>

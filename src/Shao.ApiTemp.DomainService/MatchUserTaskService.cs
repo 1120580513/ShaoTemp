@@ -19,7 +19,7 @@ public class MatchUserTaskService : BaseService
     {
         _userTaskRepo = userTaskRepo;
         _thirdRepo = thirdRepo;
-        _userTaskRecordRepo = userTaskRecordRepo; 
+        _userTaskRecordRepo = userTaskRecordRepo;
     }
 
     //public async Task<R> ExecuteMatch()
@@ -28,8 +28,8 @@ public class MatchUserTaskService : BaseService
     //}
     public async Task<R> Match(MatchUserTaskReq req)
     {
-        var matchR =  await Match(new UserTaskIdReq(req.UserTaskId), new UserOrder() { OrderNo = req.OrderNo });
-        return  await SaveMatchResult(matchR.Data!);
+        var matchR = await Match(new UserTaskIdReq(req.UserTaskId), new UserOrder() { OrderNo = req.OrderNo });
+        return await SaveMatchResult(matchR.Data!);
     }
     public async Task<R<MatchResult>> Match(IUserTaskId userTaskId, UserOrder userOrder)
     {

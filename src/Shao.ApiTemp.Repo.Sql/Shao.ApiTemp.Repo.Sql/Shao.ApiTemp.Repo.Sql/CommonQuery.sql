@@ -10,6 +10,7 @@ SELECT TOP 100 * FROM dbo.GiveGoods WITH(NOLOCK)
 SELECT TOP 100 * FROM dbo.PromoteTask WITH(NOLOCK)
 SELECT TOP 100 * FROM dbo.PromoteTaskSpec WITH(NOLOCK)
 SELECT TOP 100 * FROM dbo.UserTask WITH(NOLOCK)
+SELECT TOP 100 * FROM dbo.UserTaskRecord WITH(NOLOCK)
 -----------------------------------------
 DECLARE @StoreId BIGINT = 1
 SELECT TOP 100 * FROM dbo.Store WITH(NOLOCK) WHERE StoreId = @StoreId
@@ -22,5 +23,6 @@ SELECT TOP 100 * FROM dbo.GiveGoods WITH(NOLOCK) WHERE GiveGoodsId IN(
 	SELECT GiveGoodsId FROM dbo.PromoteTaskSpec WITH(NOLOCK) WHERE PromoteTaskId = @PromoteTaskId
 )
 -----------------------------------------
-truncate table  PromoteTask
-truncate table  PromoteTaskSpec
+
+SELECT TOP 100 * FROM dbo.UserTaskRecord WITH(NOLOCK)
+delete from UserTaskRecord where usertaskrecordid <> 1

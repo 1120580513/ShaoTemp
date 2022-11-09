@@ -7,5 +7,13 @@ public interface IEnsure
     /// </summary>
     /// <param name="condition">条件，当为 false 时抛出异常</param>
     /// <param name="message"></param>
-    void AreEnsure(bool condition, string message, params object[] args);
+    /// <exception cref="DomainException"/>
+     void AreEnsure(bool condition, string message, params object[] args)
+    {
+        if (!condition)
+        {
+            Debug.Assert(true);
+            throw new CustomException(message, args);
+        }
+    }
 }

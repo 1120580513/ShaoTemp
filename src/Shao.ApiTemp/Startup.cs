@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Shao.ApiTemp.DomainService;
 using Shao.ApiTemp.Infrastructure.Filters;
 using Shao.ApiTemp.Infrastructure.SwaggerGen;
 using Shao.ApiTemp.Service.Base;
@@ -20,10 +19,8 @@ public class Startup
 
     public virtual void ConfigureServices(IServiceCollection services)
     {
-        services
-            .AddCustomMvc()
-            .AddCustomSwagger(Configuration)
-            ;
+        services.AddCustomMvc()
+            .AddCustomSwagger(Configuration);
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
@@ -95,6 +92,7 @@ public static class StartExtensionMethods
                 Description = ""
             });
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Shao.ApiTemp.xml"));
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Shao.ApiTemp.Dto.xml"));
         });
         return services;
     }

@@ -7,4 +7,4 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
-//KedeOverseas.GenGoodsRecord();
+KedeOverseas.GenGoodsRecord();

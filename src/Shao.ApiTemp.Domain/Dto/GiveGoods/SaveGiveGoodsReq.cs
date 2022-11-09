@@ -8,32 +8,37 @@ namespace Shao.ApiTemp.Domain.Dto.GiveGoods;
 public class SaveGiveGoodsReq : GiveGoodsIdReq
 {
     /// <summary>
-    /// 赠品名称 
+    /// 赠品名称
     /// </summary>
     ///<remarks>nvarchar(128)</remarks>
     public string? GiveGoodsName { get; set; }
+
     /// <summary>
-    /// 赠品编码 
+    /// 赠品编码
     /// </summary>
     ///<remarks>varchar(32)</remarks>
     public string? GiveGoodsCode { get; set; }
+
     /// <summary>
-    /// 赠送数量 
+    /// 赠送数量
     /// </summary>
     ///<remarks>int(4)</remarks>
     public int GiveGoodsNum { get; set; }
+
     /// <summary>
-    /// 赠品状态 
+    /// 赠品状态
     /// </summary>
     ///<remarks>int(4)</remarks>
     public GiveGoodsStatus GiveGoodsStatus { get; set; }
 
     public bool IsInsert() => GiveGoodsId == default;
 }
+
 public class SaveGiveGoodsReqValitator : ReqValidator<SaveGiveGoodsReq>
 {
     public const int GiveGoodsName_Length = 128;
     public const int GiveGoodsCode_Length = 32;
+
     public SaveGiveGoodsReqValitator()
     {
         RuleFor(x => x.GiveGoodsId).GreaterThanOrEqualTo(0).WithName("赠品标识");

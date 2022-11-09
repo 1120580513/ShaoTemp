@@ -11,10 +11,11 @@ public class StoreRepo : DefaultConnRepo<StoreRepo>, IStoreRepo
         var store = await ToDo(storePo);
         return store;
     }
+
     public async Task<StoreDo?> GetByStoreName(string storeName)
     {
         var sql = @"
-SELECT * 
+SELECT *
 FROM dbo.Store WITH(NOLOCK)
 WHERE StoreName = @StoreName
 ";
@@ -25,6 +26,7 @@ WHERE StoreName = @StoreName
         var store = await ToDo(storePo!);
         return store;
     }
+
     public async Task<R<IEnumerable<QueryStoreDto>>> Query(QueryStoreReq req)
     {
         var sql = new SqlBuilder(@"
@@ -47,11 +49,12 @@ FROM dbo.Store WITH(NOLOCK)
         await InsertOrUpdate(storePo, UnitOfWork.Default, "保存店铺失败");
         return R.Succ();
     }
+
     public async Task<R> SaveConfig(StoreDo store)
     {
         var storeConfigPo = App.Map<StoreConfigDo, StoreConfigPo>(store.Config!);
         storeConfigPo.StoreId = store.StoreId;
-         await InsertOrUpdate(storeConfigPo, UnitOfWork.Default, "保存店铺配置失败");
+        await InsertOrUpdate(storeConfigPo, UnitOfWork.Default, "保存店铺配置失败");
         return R.Succ();
     }
 
@@ -59,8 +62,8 @@ FROM dbo.Store WITH(NOLOCK)
     {
         var store = App.Map<StorePo, StoreDo>(po);
         var configSql = @"
-SELECT * 
-FROM dbo.StoreConfig WITH(NOLOCK) 
+SELECT *
+FROM dbo.StoreConfig WITH(NOLOCK)
 WHERE StoreId = @StoreId
 ";
         StoreConfigPo? config = await QuerySingle<StoreConfigPo>(configSql, po, nameof(ToDo), "查询店铺配置失败");
@@ -68,4 +71,3 @@ WHERE StoreId = @StoreId
         return store;
     }
 }
-

@@ -1,0 +1,940 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Shao.ApiTemp.Domain</name>
+    </assembly>
+    <members>
+        <member name="M:Shao.ApiTemp.Domain.BaseDo.AreEnsure(System.Boolean,System.String,System.Object[])">
+            <inheritdoc />
+            <exception cref="T:Shao.ApiTemp.Common.Exceptions.DomainException"/>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.GiveGoods.GiveGoodsIdReq">
+            <summary>
+             赠品标识
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.GiveGoodsIdReq.GiveGoodsId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto">
+            <summary>
+             查询赠品结果项
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.GiveGoodsId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.GiveGoodsName">
+            <summary>
+            赠品名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.GiveGoodsCode">
+            <summary>
+            赠品编码 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.GiveGoodsNum">
+            <summary>
+            赠送数量 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.GiveGoodsStatus">
+            <summary>
+            赠品状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsDto.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsReq">
+            <summary>
+             查询赠品请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsReq.GiveGoodsName">
+            <summary>
+            赠品名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.QueryGiveGoodsReq.GiveGoodsCode">
+            <summary>
+            赠品编码 
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.GiveGoods.SaveGiveGoodsReq">
+            <summary>
+             保存赠品请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.SaveGiveGoodsReq.GiveGoodsName">
+             <summary>
+             赠品名称
+             </summary>
+            <remarks>nvarchar(128)</remarks>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.SaveGiveGoodsReq.GiveGoodsCode">
+             <summary>
+             赠品编码
+             </summary>
+            <remarks>varchar(32)</remarks>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.SaveGiveGoodsReq.GiveGoodsNum">
+             <summary>
+             赠送数量
+             </summary>
+            <remarks>int(4)</remarks>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.GiveGoods.SaveGiveGoodsReq.GiveGoodsStatus">
+             <summary>
+             赠品状态
+             </summary>
+            <remarks>int(4)</remarks>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto">
+            <summary>
+             推广任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.StoreName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.PromoteTaskName">
+            <summary>
+            推广任务名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.PromoteTaskStatus">
+            <summary>
+            推广任务状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskDto.Specs">
+            <summary>
+            规格
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskIdReq">
+            <summary>
+             唯一推广任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskIdReq.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.PromoteTaskSpecId">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.SpecNum">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.GiveGoodsId">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.GiveGoodsName">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.GiveGoodsCode">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.PromoteTaskSpecDto.GiveGoodsNum">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto">
+            <summary>
+             查询推广任务结果项
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.StoreName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.PromoteTaskName">
+            <summary>
+            推广任务名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.PromoteTaskStatus">
+            <summary>
+            推广任务状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskDto.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq">
+            <summary>
+             查询推广任务请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq.PromoteTaskName">
+            <summary>
+            推广任务名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq.PromoteTaskStatus">
+            <summary>
+            推广任务状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.QueryPromoteTaskReq.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq">
+            <summary>
+             保存推广任务请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq.PromoteTaskName">
+            <summary>
+            推广任务名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskReq.Specs">
+            <summary>
+            任务规格
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.PromoteTaskSpecId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.SpecNum">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.GiveGoodsId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.GiveGoodsName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.GiveGoodsCode">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.GiveGoodsNum">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.PromoteTask.SavePromoteTaskSpecReq.IsDelete">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto">
+            <summary>
+             查询店铺结果项
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto.StoreName">
+            <summary>
+            店铺名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto.AuditQuota">
+            <summary>
+            审核限额 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto.StoreStatus">
+            <summary>
+            店铺状态
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreDto.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.Store.QueryStoreReq">
+            <summary>
+             查询店铺请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.QueryStoreReq.StoreName">
+            <summary>
+            店铺名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.SaveStoreConfigReq.PromoteLimitOfDay">
+            <summary>
+            多少天可购买 <see cref="P:Shao.ApiTemp.Domain.Dto.Store.SaveStoreConfigReq.PromoteLimitCount"/> 次
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.SaveStoreConfigReq.PromoteLimitCount">
+            <summary>
+            推广限制次数
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.Store.SaveStoreReq">
+            <summary>
+             保存店铺请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.SaveStoreReq.StoreName">
+            <summary>
+            店铺名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.SaveStoreReq.AuditQuota">
+            <summary>
+            审核限额 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreConfigDto.PromoteLimitOfDay">
+            <summary>
+            多少天可购买 <see cref="P:Shao.ApiTemp.Domain.Dto.Store.StoreConfigDto.PromoteLimitCount"/> 次
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreConfigDto.PromoteLimitCount">
+            <summary>
+            推广限制次数
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.Store.StoreDto">
+            <summary>
+             店铺
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreDto.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreDto.StoreName">
+            <summary>
+            店铺名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreDto.AuditQuota">
+            <summary>
+            审核限额 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreDto.StoreStatus">
+            <summary>
+            店铺状态
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.Store.StoreIdReq">
+            <summary>
+             唯一店铺
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.Store.StoreIdReq.StoreId">
+            <inheritdoc />
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.UserTask.CliamUserTaskReq">
+            <summary>
+             登记用户任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.CliamUserTaskReq.PromoteTaskSpecId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.CliamUserTaskReq.ClaimUser">
+            <summary>
+            领取用户
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto">
+            <summary>
+             查询用户任务结果项
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.UserTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.PromoteTaskName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.StoreName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.UserTaskStatus">
+            <summary>
+            用户任务状态 0 已领取 1 待审核 2 待匹配 4 待退款 8 退款失败 16 已完成 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.Mobile">
+            <summary>
+            用户手机号 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.OrderNo">
+            <summary>
+            订单号 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.MatchOn">
+            <summary>
+            匹配时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskDto.ModifyOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq">
+            <summary>
+             查询用户任务请求
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.StoreId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.UserTaskStatus">
+            <summary>
+            用户任务状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.Mobile">
+            <summary>
+            用户手机号 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.OrderNo">
+            <summary>
+            订单号 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.QueryUserTaskReq.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Dto.UserTask.UserTaskIdReq">
+            <summary>
+             唯一用户任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Dto.UserTask.UserTaskIdReq.UserTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo">
+            <summary>
+            赠品 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.GiveGoodsId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.GiveGoodsName">
+            <summary>
+            赠品名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.GiveGoodsCode">
+            <summary>
+            赠品编码 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.GiveGoodsNum">
+            <summary>
+            赠送数量 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.GiveGoodsStatus">
+            <summary>
+            赠品状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsStatus.Off">
+            <summary>
+            关
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.GiveGoods.GiveGoodsStatus.On">
+            <summary>
+            开
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.Mq.Config.B2cMqClientConfig.AreEnsure(System.Boolean,System.String,System.Object[])">
+            <inheritdoc />
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.IPromoteTaskId.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo">
+            <summary>
+            推广任务 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.PromoteTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.PromoteTaskName">
+            <summary>
+            推广任务名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.PromoteTaskStatus">
+            <summary>
+            推广任务状态 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.StartTime">
+            <summary>
+            推广任务开始时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.EndTime">
+            <summary>
+            推广任务结束时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.Specs">
+            <summary>
+            任务规格
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskSpecDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskStatus.Deleted">
+            <summary>
+            已删除
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskStatus.Unpublished">
+            <summary>
+            待发布
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskStatus.Published">
+            <summary>
+            已发布
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.PromoteTask.PromoteTaskStatus.Closed">
+            <summary>
+            已结束
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Store.IStoreId">
+            <summary>
+            保证名称统一
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.IStoreId.StoreId">
+            <summary>
+            店铺标识
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreConfigDo.PromoteLimitOfDay">
+            <summary>
+            多少天可购买 <see cref="P:Shao.ApiTemp.Domain.Store.StoreConfigDo.PromoteLimitCount"/> 次
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreConfigDo.PromoteLimitCount">
+            <summary>
+            推广限制次数
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.Store.StoreConfigDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.Store.StoreDo">
+            <summary>
+            店铺 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.StoreId">
+            <inheritdoc />
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.StoreName">
+            <summary>
+            店铺名称 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.AuditQuota">
+            <summary>
+            审核限额 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.StoreStatus">
+            <summary>
+            店铺状态
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.Store.StoreDo.Config">
+            <summary>
+            店铺配置
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.Store.StoreDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.Store.StoreStatus.Off">
+            <summary>
+            关
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.Store.StoreStatus.On">
+            <summary>
+            开
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.ThirdOrder.ThirdOrderStatus.WaitSellerSendGoods">
+            <summary>
+            等待卖家发货
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.ThirdOrder.ThirdOrderStatus.TradeFinished">
+            <summary>
+            交易完成
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.IUserTaskRecordId.UserTaskRecordId">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.UserTaskRecordId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.UserTask">
+            <summary>
+            用户任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.MatchedSpec">
+            <summary>
+            匹配的规格
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.RefundAmount">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.RefundedAmount">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.GiveGoodsName">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.GiveGoodsCode">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.GiveGoodsNum">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.CreateOn">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.UserTaskRecord.UserTaskRecordDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.ClaimUser.Mobile">
+            <summary>
+            手机号 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.IUserTaskId.UserTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.UserTask.IUserTaskRepo.HasByPromoteTaskAndUser(Shao.ApiTemp.Domain.UserTask.ClaimUser,Shao.ApiTemp.Domain.PromoteTask.IPromoteTaskId)">
+            <summary>
+            <paramref name="claimUser"/> 是否已领取 <paramref name="promoteTaskId"/> 的推广任务
+            </summary>
+            <param name="claimUser"></param>
+            <param name="promoteTaskId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.UserTask.IUserTaskRepo.CountClaimed(Shao.ApiTemp.Domain.UserTask.ClaimUser,System.DateTime)">
+            <summary>
+            统计从 <paramref name="startTime"/> 开始 <paramref name="claimUser"/> 领取了多少次任务
+            </summary>
+            <param name="claimUser"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Shao.ApiTemp.Domain.UserTask.UserTaskDo">
+            <summary>
+            用户任务 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.UserTaskId">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.UserTaskStatus">
+            <summary>
+            用户任务状态
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.ClaimOn">
+            <summary>
+            领取时间
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.MatchOn">
+            <summary>
+            匹配时间 
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.PromoteTask">
+            <summary>
+            推广任务
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.ClaimUser">
+            <summary>
+            领取用户
+            </summary>
+        </member>
+        <member name="P:Shao.ApiTemp.Domain.UserTask.UserTaskDo.Order">
+            <summary>
+            用户订单
+            </summary>
+        </member>
+        <member name="M:Shao.ApiTemp.Domain.UserTask.UserTaskDo.#ctor">
+            <summary>
+            自动映射使用
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.RefundFail">
+            <summary>
+            退款失败
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.Canceled">
+            <summary>
+            已作废
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.WaitMatch">
+            <summary>
+            待匹配
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.WaitAudit">
+            <summary>
+            待审核
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.WaitRefund">
+            <summary>
+            待退款
+            </summary>
+        </member>
+        <member name="F:Shao.ApiTemp.Domain.UserTask.UserTaskStatus.Finished">
+            <summary>
+            已完成
+            </summary>
+        </member>
+    </members>
+</doc>
